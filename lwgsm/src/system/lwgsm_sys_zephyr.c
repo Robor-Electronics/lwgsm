@@ -14,8 +14,6 @@ K_THREAD_STACK_DEFINE(lwgsm_produce_stack, LWGSM_SYS_THREAD_SS);
 const char *LWGSM_CONSUME_THREAD_NAME = "lwgsm_consume";
 K_THREAD_STACK_DEFINE(lwgsm_consume_stack, LWGSM_SYS_THREAD_SS);
 
-struct k_stack lwgsm_produce;
-
 // Mutex ID for main protection
 struct k_mutex sys_mutex;
 
@@ -40,7 +38,7 @@ uint8_t lwgsm_sys_mutex_create(lwgsm_sys_mutex_t *p) {
 }
 
 uint8_t lwgsm_sys_mutex_delete(lwgsm_sys_mutex_t *p) {
-    (void) p;
+    k_free(p);
     return 1;
 }
 
@@ -67,6 +65,7 @@ uint8_t lwgsm_sys_sem_create(lwgsm_sys_sem_t *sem, uint8_t count) {
 
 uint8_t lwgsm_sys_sem_delete(lwgsm_sys_sem_t *sem) {
     k_sem_reset(sem);
+    k_free(sem);
     return 1;
 }
 
@@ -98,7 +97,7 @@ uint8_t lwgsm_sys_mbox_create(lwgsm_sys_mbox_t *mbox, size_t size) {
 }
 
 uint8_t lwgsm_sys_mbox_delete(lwgsm_sys_mbox_t *mbox) {
-    (void) mbox;
+    k_free(mbox);
     return 1;
 }
 
