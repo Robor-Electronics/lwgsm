@@ -38,7 +38,6 @@ uint8_t lwgsm_sys_mutex_create(lwgsm_sys_mutex_t *p) {
 }
 
 uint8_t lwgsm_sys_mutex_delete(lwgsm_sys_mutex_t *p) {
-    k_free(p);
     return 1;
 }
 
@@ -60,12 +59,17 @@ uint8_t lwgsm_sys_mutex_invalid(lwgsm_sys_mutex_t *p) {
 }
 
 uint8_t lwgsm_sys_sem_create(lwgsm_sys_sem_t *sem, uint8_t count) {
-    return k_sem_init(sem, 0, count) == 0;
+    // When count == 0, it is expected that the semaphore
+    // is immediately locked on creation. So we create a
+    // semaphore with initial count of 0 and a limit of 1.
+    if (count == 0) {
+        return k_sem_init(sem, 0, 1) == 0;
+    }
+    return k_sem_init(sem, count, count) == 0;
 }
 
 uint8_t lwgsm_sys_sem_delete(lwgsm_sys_sem_t *sem) {
     k_sem_reset(sem);
-    k_free(sem);
     return 1;
 }
 
@@ -97,7 +101,6 @@ uint8_t lwgsm_sys_mbox_create(lwgsm_sys_mbox_t *mbox, size_t size) {
 }
 
 uint8_t lwgsm_sys_mbox_delete(lwgsm_sys_mbox_t *mbox) {
-    k_free(mbox);
     return 1;
 }
 

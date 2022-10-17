@@ -16,6 +16,7 @@ set(lwgsm_core_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_input.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_int.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_mem.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_mqtt.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_network.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_operator.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_parser.c
@@ -29,7 +30,7 @@ set(lwgsm_core_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_ussd.c
     ${CMAKE_CURRENT_LIST_DIR}/src/lwgsm/lwgsm_utils.c
     )
-    
+
 # API sources
 set(lwgsm_api_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/api/lwgsm_netconn.c

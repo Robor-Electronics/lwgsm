@@ -34,7 +34,7 @@
 #include "lwgsm/lwgsm_network.h"
 #include "lwgsm/lwgsm_private.h"
 
-#if LWGSM_CFG_NETWORK || __DOXYGEN__
+#if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION || __DOXYGEN__
 
 /**
  * \brief           Attach to network and active PDP context
@@ -98,8 +98,11 @@ lwgsm_network_check_status(const lwgsm_api_cmd_evt_fn evt_fn, void* const evt_ar
 
     LWGSM_MSG_VAR_ALLOC(msg, blocking);
     LWGSM_MSG_VAR_SET_EVT(msg, evt_fn, evt_arg);
+#ifdef LWGSM_CFG_NETWORK_CENTERION
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_CGREG_GET;
+#elif
     LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_CIPSTATUS;
-
+#endif
     return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 60000);
 }
 

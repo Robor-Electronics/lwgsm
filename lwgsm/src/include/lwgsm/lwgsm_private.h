@@ -256,6 +256,29 @@ typedef enum {
     LWGSM_CMD_CSMP,         /*!< Set SMS Text Mode Parameters */
     LWGSM_CMD_CSMS,         /*!< Select Message Service */
 
+    /* AT commands specific to the Centerion EXS82-W */
+    LWGSM_CMD_CGREG_SET,    /*!< Packet Domain Network Registration set output */
+    LWGSM_CMD_CGREG_GET,    /*!< Packet Domain Network registration status */
+    LWGSM_CMD_CGDCONT,      /*!< Define Packet Domain Context */
+
+    LWGSM_CMD_MQTT_PUB, /*!< Send data over mqtt on a topic to an address */
+    LWGSM_CMD_SRVTYPE, /*!< Internet service profile service type */
+    LWGSM_CMD_SRV_ID, /*!< Selected internet service profile context ID */
+    LWGSM_CMD_SRV_ADDR, /*!< Selected service profile target url */
+    LWGSM_CMD_MQTT_USER, /*!< User ID for selected service profile */
+    LWGSM_CMD_SRV_CMD, /*!< Used command for service profile MQTT call (e.g. publish) */
+    LWGSM_CMD_MQTT_TOPIC, /*!< Topic for service profile MQTT call */
+    LWGSM_CMD_MQTT_CLIENT_ID, /*!< Client ID for service profile MQTT call */
+    LWGSM_CMD_SERVICE_PROFILE_CONTENT_LEN, /*!< Length of the to-be-sent content */
+
+    LWGSM_CMD_HTTP_POST,
+    LWGSM_CMD_HTTP_CON_TYPE,
+    LWGSM_CMD_NETWORK_CONNECTION_ACTIVATE, /*!< Activate internet connection */
+    LWGSM_CMD_NETWORK_CONNECTION_DEACTIVATE, /*!< Deactivate internet connection */
+    LWGSM_CMD_NETWORK_CALL_OPEN, /*!< Open a network call */
+    LWGSM_CMD_NETWORK_CALL_CLOSE, /*!< Close a network call */
+    LWGSM_CMD_NETWORK_CALL_WRITE, /*!< Write over an open network call */
+
     LWGSM_CMD_END, /*!< Last CMD entry */
 } lwgsm_cmd_t;
 
@@ -531,12 +554,33 @@ typedef struct lwgsm_msg {
             size_t resp_write_ptr; /*!< Write pointer for response */
             uint8_t quote_det;     /*!< Information if quote has been detected */
         } ussd;                    /*!< Execute USSD command */
-#if LWGSM_CFG_NETWORK || __DOXYGEN__
+#if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION || __DOXYGEN__
         struct {
             const char* apn;  /*!< APN address */
             const char* user; /*!< APN username */
             const char* pass; /*!< APN password */
         } network_attach;     /*!< Settings for network attach */
+
+        struct {
+            const char* address;
+            union {
+                struct {
+                    const char* user;
+                    const char* topic;
+                    const char* client_id;
+                } mqtt;
+
+                struct {
+                    enum ContentType {
+                        CONTENT_TYPE_JSON
+                    } content_type;
+                    // Reserved
+                } http;
+            };
+
+            const char *data;
+            size_t length;
+        } service_call;
 #endif                        /* LWGSM_CFG_NETWORK || __DOXYGEN__ */
     } msg;                    /*!< Group of different possible message contents */
 } lwgsm_msg_t;
@@ -621,6 +665,7 @@ typedef struct {
  */
 typedef struct {
     lwgsm_sim_state_t state; /*!< Current SIM status */
+    char imsi[20];           /*!< International Mobile Subscriber Identity */
 } lwgsm_sim_t;
 
 /**

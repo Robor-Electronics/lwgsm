@@ -400,7 +400,7 @@ typedef enum lwgsm_cb_type_t {
     LWGSM_EVT_NETWORK_OPERATOR_CURRENT, /*!< Current operator event */
     LWGSM_EVT_NETWORK_REG_CHANGED,      /*!< Network registration changed.
                                                          Available even when \ref LWGSM_CFG_NETWORK is disabled */
-#if LWGSM_CFG_NETWORK || __DOXYGEN__
+#if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION || __DOXYGEN__
     LWGSM_EVT_NETWORK_ATTACHED, /*!< Attached to network, PDP context active and ready for TCP/IP application */
     LWGSM_EVT_NETWORK_DETACHED, /*!< Detached from network, PDP context not active anymore */
 #endif                          /* LWGSM_CFG_NETWORK || __DOXYGEN__ */

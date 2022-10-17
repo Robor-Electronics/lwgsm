@@ -35,7 +35,7 @@
 #include "lwgsm/lwgsm_network.h"
 #include "lwgsm/lwgsm_private.h"
 
-#if LWGSM_CFG_NETWORK || __DOXYGEN__
+#if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION || __DOXYGEN__
 
 /* Network credentials used during connect operation */
 static const char* network_apn;
