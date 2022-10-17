@@ -32,6 +32,8 @@ lwgsmr_t lwgsm_http_post(
                 uint32_t blocking
         );
 
+lwgsmr_t lwgsm_cancel_call();
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
