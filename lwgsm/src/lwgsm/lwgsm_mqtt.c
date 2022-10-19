@@ -70,3 +70,12 @@ lwgsmr_t lwgsm_cancel_call() {
 
     return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
 }
+
+lwgsmr_t lwgsm_shutdown() {
+    LWGSM_MSG_VAR_DEFINE(msg);
+    LWGSM_MSG_VAR_ALLOC(msg, 1);
+    LWGSM_MSG_VAR_SET_EVT(msg, NULL, NULL);
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_SHUTDOWN;
+
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
+}

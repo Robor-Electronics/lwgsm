@@ -1891,6 +1891,12 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
 lwgsmr_t
 lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
     switch (CMD_GET_CUR()) {    /* Check current message we want to send over AT */
+        case LWGSM_CMD_SHUTDOWN: {
+            AT_PORT_SEND_BEGIN_AT();
+            AT_PORT_SEND_CONST_STR("^SMSO");
+            AT_PORT_SEND_END_AT();
+            break;
+        }
         case LWGSM_CMD_RESET: { /* Reset modem with AT commands */
             /* Try with hardware reset */
             if (lwgsm.ll.reset_fn != NULL && lwgsm.ll.reset_fn(1)) {

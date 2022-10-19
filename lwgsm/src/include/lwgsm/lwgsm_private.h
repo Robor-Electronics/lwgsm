@@ -279,6 +279,8 @@ typedef enum {
     LWGSM_CMD_NETWORK_CALL_CLOSE, /*!< Close a network call */
     LWGSM_CMD_NETWORK_CALL_WRITE, /*!< Write over an open network call */
 
+    LWGSM_CMD_SHUTDOWN,
+
     LWGSM_CMD_END, /*!< Last CMD entry */
 } lwgsm_cmd_t;
 

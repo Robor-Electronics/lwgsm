@@ -186,7 +186,7 @@
  *                  reset sequence to GSM device.
  */
 #ifndef LWGSM_CFG_RESET_ON_INIT
-#define LWGSM_CFG_RESET_ON_INIT 1
+#define LWGSM_CFG_RESET_ON_INIT 0
 #endif
 
 /**
@@ -218,7 +218,7 @@
  *
  */
 #ifndef LWGSM_CFG_KEEP_ALIVE
-#define LWGSM_CFG_KEEP_ALIVE 1
+#define LWGSM_CFG_KEEP_ALIVE 0
 #endif
 
 /**
