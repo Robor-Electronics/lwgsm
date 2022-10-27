@@ -24,13 +24,13 @@ lwgsmr_t lwgsm_http_post(
 );
 
 //    Request International Mobile Subscriber Identity
-        lwgsmr_t lwgsm_request_mobile_subscriber_id(
-                char *subscribe_id,
-                size_t length,
-                lwgsm_api_cmd_evt_fn evt_fn,
-                void *evt_arg,
-                uint32_t blocking
-        );
+lwgsmr_t lwgsm_request_mobile_subscriber_id(
+        char *subscribe_id,
+        size_t length,
+        lwgsm_api_cmd_evt_fn evt_fn,
+        void *evt_arg,
+        uint32_t blocking
+);
 
 lwgsmr_t lwgsm_cancel_call();
 

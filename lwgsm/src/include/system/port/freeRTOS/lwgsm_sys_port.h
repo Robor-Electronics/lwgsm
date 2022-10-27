@@ -51,10 +51,10 @@ extern "C" {
 #if LWGSM_CFG_OS && !__DOXYGEN__
 
 /* Include any OS specific features */
-#include "freertos/FreeRTOS.h"
-#include "freertos/queue.h"
-#include "freertos/semphr.h"
-#include "freertos/task.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "semphr.h"
+#include "task.h"
 
 /**
  * \brief           System mutex type
@@ -132,7 +132,7 @@ typedef UBaseType_t lwgsm_sys_thread_prio_t;
  *
  * It is used as default stack size for all built-in threads.
  */
-#define LWGSM_SYS_THREAD_SS   (1024)
+#define LWGSM_SYS_THREAD_SS   (512)
 
 #endif /* LWGSM_CFG_OS && !__DOXYGEN__ */
 
