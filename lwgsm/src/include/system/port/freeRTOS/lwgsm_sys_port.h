@@ -132,7 +132,7 @@ typedef UBaseType_t lwgsm_sys_thread_prio_t;
  *
  * It is used as default stack size for all built-in threads.
  */
-#define LWGSM_SYS_THREAD_SS   (512)
+#define LWGSM_SYS_THREAD_SS   (1440)
 
 #endif /* LWGSM_CFG_OS && !__DOXYGEN__ */
 
