@@ -280,6 +280,16 @@ typedef struct {
     } data;                  /*!< Operator data union */
 } lwgsm_operator_curr_t;
 
+typedef enum {
+    LWGSM_SXRAT_GSM = 0,
+    LWGSM_SXRAT_LTE_CAT_M1 = 7,
+    LWGSM_SXRAT_LTE_CAT_NB1 = 8,
+    LWGSM_SXRAT_LTE_CAT_M1_GSM_DUAL = 9,
+    LWGSM_SXRAT_LTE_CAT_M1_CAT_NB1_DUAL = 10,
+    LWGSM_SXRAT_LTE_CAT_NB1_GSM_DUAL = 11,
+    LWGSM_SXRAT_LTE_CAT_M1_CAT_NB1_GSM_TRIPLE = 12
+} lwsgm_rat_t;
+
 /**
  * \ingroup         LWGSM_NETWORK
  * \brief           Network Registration status

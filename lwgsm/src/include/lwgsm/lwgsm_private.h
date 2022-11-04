@@ -172,6 +172,7 @@ typedef enum {
     LWGSM_CMD_CPUK_SET,               /*!< Enter PUK and set new PIN */
 
     LWGSM_CMD_CSQ_GET,  /*!< Signal Quality Report */
+    LWGSM_CMD_CESQ_GET, /*!< Extended Signal Quality Report */
     LWGSM_CMD_CFUN_SET, /*!< Set Phone Functionality */
     LWGSM_CMD_CFUN_GET, /*!< Get Phone Functionality */
     LWGSM_CMD_CREG_SET, /*!< Network Registration set output */
@@ -257,6 +258,7 @@ typedef enum {
     LWGSM_CMD_CSMS,         /*!< Select Message Service */
 
     /* AT commands specific to the Centerion EXS82-W */
+    LWGSM_CMD_SXRAT_SET,
     LWGSM_CMD_CGREG_SET,    /*!< Packet Domain Network Registration set output */
     LWGSM_CMD_CGREG_GET,    /*!< Packet Domain Network registration status */
     LWGSM_CMD_CGDCONT,      /*!< Define Packet Domain Context */
@@ -421,6 +423,12 @@ typedef struct lwgsm_msg {
         } csq;             /*!< Signal strength */
 
         struct {
+            int16_t* strength;
+            int16_t* quality;
+            int16_t* power;
+        } cesq;
+
+        struct {
             uint8_t read;          /*!< Flag indicating we can read the COPS actual data */
             lwgsm_operator_t* ops; /*!< Pointer to operators array */
             size_t opsl;           /*!< Length of operators array */
@@ -438,6 +446,12 @@ typedef struct lwgsm_msg {
             const char* name;               /*!< Short or long name, according to format */
             uint32_t num;                   /*!< Number in case format is number */
         } cops_set;                         /*!< Set operator settings */
+
+        struct {
+            uint8_t radio_access_technology;
+            uint8_t first_preferred;
+            uint8_t second_preferred;
+        } sxrat_set;
 
 #if LWGSM_CFG_CONN || __DOXYGEN__
         /* Connection based commands */

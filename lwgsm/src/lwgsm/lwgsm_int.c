@@ -758,6 +758,8 @@ lwgsmi_parse_received(lwgsm_recv_t *rcv) {
     if (rcv->data[0] == '+') {
         if (!strncmp(rcv->data, "+CSQ", 4)) {
             lwgsmi_parse_csq(rcv->data); /* Parse +CSQ response */
+        } else if (!strncmp(rcv->data, "+CESQ", 5)) {
+            lwgsmi_parse_cesq(rcv->data);
 #if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION
         } else if (!strncmp(rcv->data, "+PDP: DEACT", 11)) {
             /* PDP has been deactivated */
@@ -2062,9 +2064,23 @@ lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
             AT_PORT_SEND_END_AT();
             break;
         }
+        case LWGSM_CMD_SXRAT_SET: {
+            AT_PORT_SEND_BEGIN_AT();
+            AT_PORT_SEND_CONST_STR("^SXRAT=");
+            lwgsmi_send_number(msg->msg.sxrat_set.radio_access_technology, 0, 0);
+            lwgsmi_send_number(msg->msg.sxrat_set.first_preferred, 0, 1);
+            lwgsmi_send_number(msg->msg.sxrat_set.second_preferred, 0, 1);
+            AT_PORT_SEND_END_AT();
+        }
         case LWGSM_CMD_CSQ_GET: { /* Get signal strength */
             AT_PORT_SEND_BEGIN_AT();
             AT_PORT_SEND_CONST_STR("+CSQ");
+            AT_PORT_SEND_END_AT();
+            break;
+        }
+        case LWGSM_CMD_CESQ_GET: {
+            AT_PORT_SEND_BEGIN_AT();
+            AT_PORT_SEND_CONST_STR("+CESQ");
             AT_PORT_SEND_END_AT();
             break;
         }
