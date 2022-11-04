@@ -87,7 +87,7 @@ lwgsm_operator_set(lwgsm_operator_mode_t mode, lwgsm_operator_format_t format, c
     LWGSM_MSG_VAR_REF(msg).msg.cops_set.name = name;
     LWGSM_MSG_VAR_REF(msg).msg.cops_set.num = num;
 
-    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 120000);
 }
 
 /**
@@ -117,4 +117,22 @@ lwgsm_operator_scan(lwgsm_operator_t* ops, size_t opsl, size_t* opf, const lwgsm
     LWGSM_MSG_VAR_REF(msg).msg.cops_scan.opf = opf;
 
     return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 120000);
+}
+
+lwgsmr_t
+lwgsm_sxrat_set(uint8_t rat, uint8_t first, uint8_t second, const lwgsm_api_cmd_evt_fn evt_fn,
+                void* const evt_arg, const uint32_t blocking) {
+    LWGSM_MSG_VAR_DEFINE(msg);
+
+    LWGSM_ASSERT(
+            first < LWGSM_SXRAT_LTE_CAT_M1_GSM_DUAL && second < LWGSM_SXRAT_LTE_CAT_M1_GSM_DUAL);
+
+    LWGSM_MSG_VAR_ALLOC(msg, blocking);
+    LWGSM_MSG_VAR_SET_EVT(msg, evt_fn, evt_arg);
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_SXRAT_SET;
+    LWGSM_MSG_VAR_REF(msg).msg.sxrat_set.radio_access_technology = rat;
+    LWGSM_MSG_VAR_REF(msg).msg.sxrat_set.first_preferred = first;
+    LWGSM_MSG_VAR_REF(msg).msg.sxrat_set.second_preferred = second;
+
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
 }

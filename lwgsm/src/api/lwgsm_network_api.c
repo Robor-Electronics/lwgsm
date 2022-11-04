@@ -130,4 +130,46 @@ lwgsm_network_request_detach(void) {
     return res;
 }
 
+lwgsmr_t
+lwgsm_network_reset_operator() {
+    // Force de-register
+    lwgsmr_t res;
+    res = lwgsm_operator_set(
+            LWGSM_OPERATOR_MODE_DEREGISTER,
+            LWGSM_OPERATOR_FORMAT_NUMBER,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            true
+    );
+    if(res != lwgsmOK) {
+        return res;
+    }
+
+    LWGSM_MSG_VAR_DEFINE(msg);
+
+    LWGSM_MSG_VAR_ALLOC(msg, true);
+    LWGSM_MSG_VAR_SET_EVT(msg, NULL, NULL);
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_CGDCONT;
+    LWGSM_MSG_VAR_REF(msg).msg.network_attach.apn = network_apn;
+
+    res = lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
+    if(res != lwgsmOK) {
+        return res;
+    }
+
+    res = lwgsm_operator_set(
+            LWGSM_OPERATOR_MODE_AUTO,
+            LWGSM_OPERATOR_FORMAT_NUMBER,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            true
+    );
+    if(res != lwgsmOK) {
+        return res;
+    }
+}
 #endif /* LWGSM_CFG_NETWORK || __DOXYGEN__ */

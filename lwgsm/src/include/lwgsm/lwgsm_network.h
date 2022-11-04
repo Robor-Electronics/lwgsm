@@ -50,6 +50,8 @@ extern "C" {
 /* Basic commands, always available */
 lwgsmr_t lwgsm_network_rssi(int16_t* rssi, const lwgsm_api_cmd_evt_fn evt_fn, void* const evt_arg,
                             const uint32_t blocking);
+lwgsmr_t lwgsm_extended_network_rssi(int16_t* strength, int16_t* quality, int16_t* power,
+        const lwgsm_api_cmd_evt_fn evt_fn, void* const evt_arg,const uint32_t blocking);
 lwgsm_network_reg_status_t lwgsm_network_get_reg_status(void);
 
 /* TCP/IP related commands */

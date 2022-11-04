@@ -373,6 +373,53 @@ lwgsmi_parse_csq(const char* str) {
     return 1;
 }
 
+uint8_t
+lwgsmi_parse_cesq(const char *str) {
+    int16_t strength, quality, power;
+    // Below data is currently unused
+    uint8_t ber, rscp, echno;
+    if (*str == '+') {
+        str += 7;
+    }
+
+    strength = lwgsmi_parse_number(&str);
+    if (strength < 64) {
+        -(110 - (strength * 2));
+    } else {
+        strength = 0;
+    }
+    if (lwgsm.msg->cmd_def == LWGSM_CMD_CESQ_GET && lwgsm.msg->msg.cesq.strength != NULL) {
+        *lwgsm.msg->msg.cesq.strength = strength;
+    }
+
+    // Parse these unused values so the pointer is moved past them
+    ber = lwgsmi_parse_number(&str);
+    rscp = lwgsmi_parse_number(&str);
+    echno = lwgsmi_parse_number(&str);
+
+    quality = lwgsmi_parse_number(&str);
+    if (quality < 35) {
+        -(19.5 - (quality * 2));
+    } else {
+        quality = 0;
+    }
+    if (lwgsm.msg->cmd_def == LWGSM_CMD_CESQ_GET && lwgsm.msg->msg.cesq.quality != NULL) {
+        *lwgsm.msg->msg.cesq.quality = quality;
+    }
+
+    power = lwgsmi_parse_number(&str);
+    if (power < 98) {
+        -(140 - (power * 2));
+    } else {
+        power = 0;
+    }
+    if (lwgsm.msg->cmd_def == LWGSM_CMD_CESQ_GET && lwgsm.msg->msg.cesq.power != NULL) {
+        *lwgsm.msg->msg.cesq.power = power;
+    }
+
+    return 1;
+}
+
 /**
  * \brief           Parse received +CPIN status value
  * \param[in]       str: Input string

@@ -157,6 +157,27 @@ lwgsm_network_rssi(int16_t* rssi, const lwgsm_api_cmd_evt_fn evt_fn, void* const
     return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 120000);
 }
 
+lwgsmr_t
+lwgsm_extended_network_rssi(
+    int16_t* strength,
+    int16_t* quality,
+    int16_t* power,
+    const lwgsm_api_cmd_evt_fn evt_fn,
+    void* const evt_arg,
+    const uint32_t blocking
+) {
+    LWGSM_MSG_VAR_DEFINE(msg);
+
+    LWGSM_MSG_VAR_ALLOC(msg, blocking);
+    LWGSM_MSG_VAR_SET_EVT(msg, evt_fn, evt_arg);
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_CESQ_GET;
+    LWGSM_MSG_VAR_REF(msg).msg.cesq.strength = strength;
+    LWGSM_MSG_VAR_REF(msg).msg.cesq.quality = quality;
+    LWGSM_MSG_VAR_REF(msg).msg.cesq.power = power;
+
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 2000);
+}
+
 /**
  * \brief           Get network registration status
  * \return          Member of \ref lwgsm_network_reg_status_t enumeration

@@ -48,6 +48,7 @@ uint8_t lwgsmi_parse_mac(const char** src, lwgsm_mac_t* mac);
 uint8_t lwgsmi_parse_cpin(const char* str, uint8_t send_evt);
 uint8_t lwgsmi_parse_creg(const char* str, uint8_t skip_first);
 uint8_t lwgsmi_parse_csq(const char* str);
+uint8_t lwgsmi_parse_cesq(const char *str);
 
 uint8_t lwgsmi_parse_cmgs(const char* str, size_t* num);
 uint8_t lwgsmi_parse_cmti(const char* str, uint8_t send_evt);

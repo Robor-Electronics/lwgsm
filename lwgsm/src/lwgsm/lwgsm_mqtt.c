@@ -20,7 +20,7 @@ lwgsmr_t lwgsm_mqtt_pub(
     LWGSM_MSG_VAR_REF(msg).msg.service_call.data = data;
     LWGSM_MSG_VAR_REF(msg).msg.service_call.length = length;
 
-    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 60000);
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 30000);
 }
 
 lwgsmr_t lwgsm_http_post(
@@ -37,7 +37,7 @@ lwgsmr_t lwgsm_http_post(
     LWGSM_MSG_VAR_REF(msg).msg.service_call.data = data;
     LWGSM_MSG_VAR_REF(msg).msg.service_call.length = length;
 
-    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 60000);
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 30000);
 }
 
 lwgsmr_t lwgsm_request_mobile_subscriber_id(
