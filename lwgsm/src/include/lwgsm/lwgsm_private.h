@@ -73,6 +73,7 @@ typedef enum {
     LWGSM_CMD_CGACT_SET_1,
     LWGSM_CMD_CGATT_SET_0,
     LWGSM_CMD_CGATT_SET_1,
+    LWGSM_CMD_ENABLE_AUTO_ATTACH,
     LWGSM_CMD_NETWORK_ATTACH, /*!< Attach to a network */
     LWGSM_CMD_NETWORK_DETACH, /*!< Detach from network */
 
