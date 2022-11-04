@@ -1637,13 +1637,13 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
             case 0:
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_CGDCONT);
                 break;
+//            case 1:
+//                SET_NEW_CMD(LWGSM_CMD_CGACT_SET_1);
+//                break;
             case 1:
-                SET_NEW_CMD(LWGSM_CMD_CGACT_SET_1);
-                break;
-            case 2:
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_CGATT_SET_0);
                 break;
-            case 3:
+            case 2:
                 SET_NEW_CMD(LWGSM_CMD_CGATT_SET_1);
                 break;
             default:
@@ -2439,6 +2439,13 @@ lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
             }
 #endif
 #if LWGSM_CFG_NETWORK_CENTERION
+        case LWGSM_CMD_ENABLE_AUTO_ATTACH: {
+            AT_PORT_SEND_BEGIN_AT();
+            AT_PORT_SEND_CONST_STR("^SCFG=");
+            lwgsmi_send_string("GPRS/AutoAttach", 0, 1, 0);
+            lwgsmi_send_string("enabled", 1, 1, 1);
+            AT_PORT_SEND_END_AT();
+        }
         case LWGSM_CMD_NETWORK_ATTACH:
         case LWGSM_CMD_CGDCONT:
             AT_PORT_SEND_BEGIN_AT();
