@@ -1650,6 +1650,7 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
                 break;
         };
     } else if (CMD_IS_DEF(LWGSM_CMD_MQTT_PUB)) {
+        // The EXS needs a bit more time to process each command in this loop, so a small delay is required
         switch (msg->i) {
             case 0:
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_SRVTYPE);
@@ -1682,12 +1683,12 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_NETWORK_CALL_OPEN);
                 break;
             case 10:
-                lwgsm_delay(2000);
+                lwgsm_delay(3000);
                 SET_NEW_CMD(LWGSM_CMD_NETWORK_CALL_WRITE);
                 break;
             case 11:
-                lwgsm_delay(1000);
-                SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_NETWORK_CALL_CLOSE);
+                lwgsm_delay(2000);
+                SET_NEW_CMD(LWGSM_CMD_NETWORK_CALL_CLOSE);
                 break;
             default:
                 break;
