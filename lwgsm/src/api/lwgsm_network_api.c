@@ -94,6 +94,15 @@ lwgsm_network_request_attach(void) {
 }
 
 /**
+ * A version of the attach function that does not internally track if the device is still attached or not.
+ * @return lwgsmOK on success
+ */
+lwgsmr_t
+lwgsm_network_untracked_attach(void) {
+    return lwgsm_network_attach(network_apn, network_user, network_pass, NULL, NULL, 1);
+}
+
+/**
  * \brief           Request manager to detach from network
  *
  * If other threads use network, manager will not disconnect from network

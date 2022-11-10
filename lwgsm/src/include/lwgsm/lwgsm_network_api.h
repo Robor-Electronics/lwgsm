@@ -50,6 +50,7 @@ extern "C" {
 lwgsmr_t lwgsm_network_set_credentials(const char* apn, const char* user, const char* pass);
 lwgsmr_t lwgsm_network_reset_operator();
 lwgsmr_t lwgsm_network_request_attach(void);
+lwgsmr_t lwgsm_network_untracked_attach(void);
 lwgsmr_t lwgsm_network_request_detach(void);
 
 /**
