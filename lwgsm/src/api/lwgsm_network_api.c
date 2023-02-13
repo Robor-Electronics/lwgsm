@@ -99,6 +99,14 @@ lwgsm_network_request_attach(void) {
  */
 lwgsmr_t
 lwgsm_network_untracked_attach(void) {
+#ifdef LWGSM_CFG_NETWORK_CENTERION
+    // Ensure auto attach is disabled before attaching
+    const lwgsmr_t status = lwgsm_network_disable_auto_attach(NULL, NULL, 1);
+    if (status != lwgsmOK) {
+        return status;
+    }
+#endif
+
     return lwgsm_network_attach(network_apn, network_user, network_pass, NULL, NULL, 1);
 }
 

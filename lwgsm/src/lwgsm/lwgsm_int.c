@@ -281,11 +281,11 @@ lwgsmi_get_sim_info(const uint32_t blocking) {
  * \param[in]       c: Set to `1` to include comma before string
  */
 void
-lwgsmi_send_ip_mac(const void* d, uint8_t is_ip, uint8_t q, uint8_t c) {
+lwgsmi_send_ip_mac(const void *d, uint8_t is_ip, uint8_t q, uint8_t c) {
     uint8_t ch;
     char str[4];
-    const lwgsm_mac_t* mac = d;
-    const lwgsm_ip_t* ip = d;
+    const lwgsm_mac_t *mac = d;
+    const lwgsm_ip_t *ip = d;
 
     AT_PORT_SEND_COMMA_COND(c); /* Send comma */
     if (d == NULL) {
@@ -1401,7 +1401,7 @@ lwgsmi_process(const void *data, size_t data_len) {
  * \return          \ref lwgsmCONT if you sent more data and we need to process more data, \ref lwgsmOK on success, or \ref lwgsmERR on error
  */
 static lwgsmr_t
-lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
+lwgsmi_process_sub_cmd(lwgsm_msg_t *msg, uint8_t *is_ok, uint16_t *is_error) {
     lwgsm_cmd_t n_cmd = LWGSM_CMD_IDLE;
     if (CMD_IS_DEF(LWGSM_CMD_RESET)) {
         switch (CMD_GET_CUR()) { /* Check current command */
@@ -1694,7 +1694,7 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
                 break;
         };
     } else if (CMD_IS_DEF(LWGSM_CMD_HTTP_POST)) {
-        switch(msg->i) {
+        switch (msg->i) {
             case 0:
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_SRVTYPE);
                 break;
@@ -1883,6 +1883,14 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t* msg, uint8_t* is_ok, uint16_t* is_error) {
         msg->cmd = LWGSM_CMD_IDLE;
     }
     return *is_ok ? lwgsmOK : lwgsmERR;
+}
+
+void lwgsm_set_auto_attach(bool enabled) {
+    AT_PORT_SEND_BEGIN_AT();
+    AT_PORT_SEND_CONST_STR("^SCFG=");
+    lwgsmi_send_string("GPRS/AutoAttach", 0, 1, 0);
+    lwgsmi_send_string(enabled ? "enabled" : "disabled", 1, 1, 1);
+    AT_PORT_SEND_END_AT();
 }
 
 /**
@@ -2440,12 +2448,13 @@ lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
             }
 #endif
 #if LWGSM_CFG_NETWORK_CENTERION
+        case LWGSM_CMD_DISABLE_AUTO_ATTACH: {
+            lwgsm_set_auto_attach(false);
+            break;
+        }
         case LWGSM_CMD_ENABLE_AUTO_ATTACH: {
-            AT_PORT_SEND_BEGIN_AT();
-            AT_PORT_SEND_CONST_STR("^SCFG=");
-            lwgsmi_send_string("GPRS/AutoAttach", 0, 1, 0);
-            lwgsmi_send_string("enabled", 1, 1, 1);
-            AT_PORT_SEND_END_AT();
+            lwgsm_set_auto_attach(true);
+            break;
         }
         case LWGSM_CMD_NETWORK_ATTACH:
         case LWGSM_CMD_CGDCONT:
