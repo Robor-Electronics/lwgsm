@@ -119,13 +119,9 @@ lwgsm_operator_scan(lwgsm_operator_t* ops, size_t opsl, size_t* opf, const lwgsm
     return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 120000);
 }
 
-lwgsmr_t
-lwgsm_sxrat_set(uint8_t rat, uint8_t first, uint8_t second, const lwgsm_api_cmd_evt_fn evt_fn,
+lwgsmr_t lwgsm_sxrat_set(lwsgm_rat_t rat, lwsgm_rat_t first, lwsgm_rat_t second, const lwgsm_api_cmd_evt_fn evt_fn,
                 void* const evt_arg, const uint32_t blocking) {
     LWGSM_MSG_VAR_DEFINE(msg);
-
-    LWGSM_ASSERT(
-            first < LWGSM_SXRAT_LTE_CAT_M1_GSM_DUAL && second < LWGSM_SXRAT_LTE_CAT_M1_GSM_DUAL);
 
     LWGSM_MSG_VAR_ALLOC(msg, blocking);
     LWGSM_MSG_VAR_SET_EVT(msg, evt_fn, evt_arg);

@@ -2077,10 +2077,10 @@ lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
             AT_PORT_SEND_BEGIN_AT();
             AT_PORT_SEND_CONST_STR("^SXRAT=");
             lwgsmi_send_number(msg->msg.sxrat_set.radio_access_technology, 0, 0);
-            if (msg->msg.sxrat_set.first_preferred != 255) {
+            if (msg->msg.sxrat_set.first_preferred != LWGSM_SXRAT_UNSET) {
                 lwgsmi_send_number(msg->msg.sxrat_set.first_preferred, 0, 1);
             }
-            if (msg->msg.sxrat_set.second_preferred != 255) {
+            if (msg->msg.sxrat_set.second_preferred != LWGSM_SXRAT_UNSET) {
                 lwgsmi_send_number(msg->msg.sxrat_set.second_preferred, 0, 1);
             }
             AT_PORT_SEND_END_AT();

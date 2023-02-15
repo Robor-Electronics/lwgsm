@@ -450,9 +450,9 @@ typedef struct lwgsm_msg {
         } cops_set;                         /*!< Set operator settings */
 
         struct {
-            uint8_t radio_access_technology;
-            uint8_t first_preferred;
-            uint8_t second_preferred;
+            lwsgm_rat_t radio_access_technology;
+            lwsgm_rat_t first_preferred;
+            lwsgm_rat_t second_preferred;
         } sxrat_set;
 
 #if LWGSM_CFG_CONN || __DOXYGEN__
