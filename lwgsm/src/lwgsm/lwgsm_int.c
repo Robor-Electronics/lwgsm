@@ -1720,11 +1720,11 @@ lwgsmi_process_sub_cmd(lwgsm_msg_t *msg, uint8_t *is_ok, uint16_t *is_error) {
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_NETWORK_CALL_OPEN);
                 break;
             case 8:
-                lwgsm_delay(2000);
+                lwgsm_delay(3000);
                 SET_NEW_CMD(LWGSM_CMD_NETWORK_CALL_WRITE);
                 break;
             case 9:
-                lwgsm_delay(1000);
+                lwgsm_delay(2000);
                 SET_NEW_CMD_CHECK_ERROR(LWGSM_CMD_NETWORK_CALL_CLOSE);
                 break;
             default:
