@@ -128,7 +128,7 @@ lwgsm_init(lwgsm_evt_fn evt_func, const uint32_t blocking) {
     }
     lwgsm_sys_sem_wait(&lwgsm.sem_sync, 0); /* Wait semaphore, should be unlocked in produce thread */
     if (!lwgsm_sys_thread_create(&lwgsm.thread_process, "lwgsm_process", lwgsm_thread_process, &lwgsm.sem_sync,
-                                 LWGSM_SYS_THREAD_SS, LWGSM_SYS_THREAD_PRIO)) {
+                                 200, LWGSM_SYS_THREAD_PRIO)) {
         LWGSM_DEBUGF(LWGSM_CFG_DBG_INIT | LWGSM_DBG_LVL_SEVERE | LWGSM_DBG_TYPE_TRACE,
                      "[LWGSM CORE] Cannot create processing thread!\r\n");
         lwgsm_sys_thread_terminate(&lwgsm.thread_produce); /* Delete produce thread */
