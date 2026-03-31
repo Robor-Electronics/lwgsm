@@ -128,6 +128,21 @@ lwgsm_network_check_status(const lwgsm_api_cmd_evt_fn evt_fn, void* const evt_ar
 }
 
 /**
+ * \brief           Query AT+CGATT? and update is_attached state
+ * \return          \ref lwgsmOK on success, member of \ref lwgsmr_t enumeration otherwise
+ */
+lwgsmr_t
+lwgsm_network_cgatt_get(uint8_t* attached, const lwgsm_api_cmd_evt_fn evt_fn, void* const evt_arg, const uint32_t blocking) {
+    LWGSM_MSG_VAR_DEFINE(msg);
+
+    LWGSM_MSG_VAR_ALLOC(msg, blocking);
+    LWGSM_MSG_VAR_SET_EVT(msg, evt_fn, evt_arg);
+    LWGSM_MSG_VAR_REF(msg).cmd_def = LWGSM_CMD_CGATT_GET;
+    LWGSM_MSG_VAR_REF(msg).msg.cgatt_get.attached = attached;
+    return lwgsmi_send_msg_to_producer_mbox(&LWGSM_MSG_VAR_REF(msg), lwgsmi_initiate_cmd, 10000);
+}
+
+/**
  * \brief           Copy IP address from internal value to user variable
  * \param[out]      ip: Pointer to output IP variable
  * \return          \ref lwgsmOK on success, member of \ref lwgsmr_t enumeration otherwise

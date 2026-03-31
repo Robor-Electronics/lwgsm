@@ -761,6 +761,11 @@ lwgsmi_parse_received(lwgsm_recv_t *rcv) {
         } else if (!strncmp(rcv->data, "+CESQ", 5)) {
             lwgsmi_parse_cesq(rcv->data);
 #if LWGSM_CFG_NETWORK || LWGSM_CFG_NETWORK_CENTERION
+        } else if (!strncmp(rcv->data, "+CGATT: ", 8)) {
+            if (CMD_IS_CUR(LWGSM_CMD_CGATT_GET) && lwgsm.msg->msg.cgatt_get.attached != NULL) {
+                const char *tmp = rcv->data + 8;
+                *lwgsm.msg->msg.cgatt_get.attached = (uint8_t)lwgsmi_parse_number(&tmp);
+            }
         } else if (!strncmp(rcv->data, "+PDP: DEACT", 11)) {
             /* PDP has been deactivated */
             lwgsm_network_check_status(NULL, NULL, 0); /* Update status */
@@ -2611,6 +2616,12 @@ lwgsmi_initiate_cmd(lwgsm_msg_t *msg) {
         case LWGSM_CMD_CGATT_SET_1: {
             AT_PORT_SEND_BEGIN_AT();
             AT_PORT_SEND_CONST_STR("+CGATT=1");
+            AT_PORT_SEND_END_AT();
+            break;
+        }
+        case LWGSM_CMD_CGATT_GET: {
+            AT_PORT_SEND_BEGIN_AT();
+            AT_PORT_SEND_CONST_STR("+CGATT?");
             AT_PORT_SEND_END_AT();
             break;
         }

@@ -73,6 +73,7 @@ typedef enum {
     LWGSM_CMD_CGACT_SET_1,
     LWGSM_CMD_CGATT_SET_0,
     LWGSM_CMD_CGATT_SET_1,
+    LWGSM_CMD_CGATT_GET,
     LWGSM_CMD_ENABLE_AUTO_ATTACH,
     LWGSM_CMD_DISABLE_AUTO_ATTACH,
     LWGSM_CMD_NETWORK_ATTACH, /*!< Attach to a network */
@@ -454,6 +455,10 @@ typedef struct lwgsm_msg {
             lwsgm_rat_t first_preferred;
             lwsgm_rat_t second_preferred;
         } sxrat_set;
+
+        struct {
+            uint8_t* attached; /*!< Pointer to output attachment state (1=attached, 0=not attached) */
+        } cgatt_get;           /*!< AT+CGATT? query */
 
 #if LWGSM_CFG_CONN || __DOXYGEN__
         /* Connection based commands */
